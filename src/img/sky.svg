@@ -1,0 +1,17 @@
+<svg width="1920" height="529" viewBox="0 0 1920 529" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Rectangle Copy" opacity="0.465626" filter="url(#filter0_f_0_827)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M-134.886 225.076C-134.886 225.076 983.538 75.1388 1690.2 164.592C2396.87 254.045 2146.79 173.596 2146.79 173.596L1941.67 392.502C1941.67 392.502 1466.77 239.372 682.372 351.716C-102.027 464.061 -156.897 216.107 -156.897 216.107L-134.886 225.076Z" fill="url(#paint0_linear_0_827)"/>
+</g>
+<defs>
+<filter id="filter0_f_0_827" x="-292.811" y="0.209442" width="2618.47" height="528.206" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="67.957" result="effect1_foregroundBlur_0_827"/>
+</filter>
+<linearGradient id="paint0_linear_0_827" x1="3293.46" y1="526.987" x2="3289.5" y2="45.9928" gradientUnits="userSpaceOnUse">
+<stop stop-color="#3DA9E2"/>
+<stop offset="0.663963" stop-color="#4A9FF7"/>
+<stop offset="1" stop-color="#9AE5F9"/>
+</linearGradient>
+</defs>
+</svg>
