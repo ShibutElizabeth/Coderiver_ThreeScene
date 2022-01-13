@@ -2,15 +2,13 @@ const THREE = require("three");
 import {
   GLTFLoader
 } from 'three/examples/jsm/loaders/GLTFLoader';
-import {
-  OrbitControls
-} from 'three/examples/jsm/controls/OrbitControls';
+import {PointerLockControls} from 'three/examples/jsm/controls/PointerLockControls';
 
 (function () {
 
   let container;
   let camera, scene, renderer;
-  let orbitControls, personControls;
+  let pointerControls;
 
   let windowHalfX = window.innerWidth / 2;
   let windowHalfY = window.innerHeight / 2;
@@ -42,7 +40,7 @@ import {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(new THREE.Color("rgb(81%, 90%, 100%)"), 1);
 
-    addOrbitControls();
+    addPointerControls();
 
     container.appendChild(renderer.domElement);
     container.style.touchAction = "none";
@@ -63,12 +61,17 @@ import {
     scene.add(ground);
   }
 
-  function addOrbitControls() {
-    orbitControls = new OrbitControls(camera, renderer.domElement);
-    orbitControls.enableRotate = false;
-    orbitControls.enableZoom = false;
-    orbitControls.enablePan = false;
-    orbitControls.enableRotate = false;
+  function addPointerControls(){
+    pointerControls = new PointerLockControls(camera, document.body);
+    pointerControls.addEventListener( 'lock', function () {
+      document.body.requestPointerLock();
+    } );
+    pointerControls.addEventListener( 'unlock', function () {    
+      
+    } );
+    pointerControls.addEventListener( 'change', function () {    
+      
+    } );
   }
 
   function addLight() {
@@ -88,7 +91,6 @@ import {
 
   function animate() {
     requestAnimationFrame(animate);
-    orbitControls.update();
     renderer.render(scene, camera);
   }
 
@@ -97,53 +99,24 @@ import {
     console.log(event.code);
     switch (event.code) {
       case 'KeyW':
-        moveForward(0.1);
+        pointerControls.moveForward(0.1);
         break;
       case 'KeyA':
-        moveRight(-0.1);
+        pointerControls.moveRight(-0.1);
         break;
       case 'KeyS':
-        moveForward(-0.1);
+        pointerControls.moveForward(-0.1);
         break;
       case 'KeyD':
-        moveRight(0.1);
+        pointerControls.moveRight(0.1);
         break;
-      case 'Comma':
-        rotateRight(-0.2);
+      case 'Esc':
+        pointerControls.unlock();
         break;
-      case 'Period':
-        rotateRight(0.2);
-        break;
-      case 'ArrowLeft':
-        turnRight(-0.2);
-        break;
-      case 'ArrowRight':
-        turnRight(0.2);
+      case 'Space':
+        pointerControls.lock();
         break;
     }
-  }
-
-  function moveForward(distance) {
-    _vector.setFromMatrixColumn(camera.matrix, 0);
-    _vector.crossVectors(camera.up, _vector);
-    camera.position.addScaledVector(_vector, distance);
-    orbitControls.target.addScaledVector(_vector, distance);
-  }
-
-  function moveRight(distance) {
-    _vector.setFromMatrixColumn(camera.matrix, 0);
-    camera.position.addScaledVector(_vector, distance);
-    orbitControls.target.addScaledVector(_vector, distance);
-  }
-
-  function rotateRight(distance) {
-    _vector.setFromMatrixColumn(camera.matrix, 0);
-    camera.position.addScaledVector(_vector, distance);
-  }
-
-  function turnRight(distance) {
-    _vector.setFromMatrixColumn(camera.matrix, 0);
-    orbitControls.target.addScaledVector(_vector, distance);
   }
 
   function gltfModelLoad() {
