@@ -18,16 +18,16 @@ export default class MyScene {
 			0.01,
 			30000
 		);
-		this.camera.position.set(-10, 2, 4);
+		this.camera.position.set(5, 2, 12);
 
 		this.scene = new THREE.Scene();
 		this.renderer = new THREE.WebGLRenderer();
-		this.pointerControls = new PointerLockControls(this.camera);
+		this.pointerControls = new PointerLockControls(this.camera, document.body);
 
 		this.renderer.setPixelRatio = devicePixelRatio;
 		this.renderer.setSize(window.innerWidth, window.innerHeight);
 		this.renderer.setClearColor(new THREE.Color("rgb(81%, 90%, 100%)"), 1);
-		console.log(this.camera);
+
 		this.init();
 		this.animate();
 	}
@@ -112,10 +112,30 @@ export default class MyScene {
 		const urlWY = '../../models/model2/WY.gltf';
 		const urlBB = '../../models/model3/BB.gltf';
 		const urlBY = '../../models/model4/BY.gltf';
+    const texUrl = '../../models/model2/theme1.jpg';
+    const texUrl2 = '../../models/model2/catfish2.png';
 
-		loader.load(urlWY, gltf => {
+    const textureLoader = new THREE.TextureLoader();
+    const texture = textureLoader.load(texUrl);
+    texture.flipY = false;
+    const material = new THREE.MeshBasicMaterial( { map: texture } );
+    const texture2 = textureLoader.load(texUrl2);
+    texture2.flipY = false;
+    const material2 = new THREE.MeshBasicMaterial( { map: texture2 } );
+		
+    loader.load(urlWY, gltf => {
 			const root = gltf.scene;
+      const tvs = root.getObjectByName('Tv_SalaAttesa');
+      tvs["children"].forEach(tv => {
+        tv["material"] = material;
+      });
+      const screens = root.getObjectByName('POD_Schermo');
+      screens["children"].forEach(sc => {
+        sc["material"] = material2;
+      });
+      console.log(screens);
 			this.scene.add(root);
+      root.rotateY(Math.PI/2);
 			console.log(this.dumpObject(root).join('\n'));
 			document.querySelector('.spin-wrapper').style.display = 'none';
 		});
@@ -132,6 +152,7 @@ export default class MyScene {
 		});
 		return lines;
 	}
+
 
 	onWindowResize() {
 		this.camera.aspect = window.innerWidth / window.innerHeight;
